@@ -1,0 +1,24 @@
+%h1 Overview
+
+%h2 Queues
+
+%table.queues
+  %tr.head
+    %th.name Name
+    %th.queued_count Queued
+    %th.processing_count Processing
+    %th.completed_count Completed
+    %th.failed_count Failed
+  = partial :'partials/queue', collection: @queues
+    
+%h2 Workers
+
+%table.workers
+  %tr.head
+    %th.id Id
+    %th.host Host
+    %th.queues Queues
+    %th.status Status
+    %th.processing Processing
+    %th.pinged_at Pinged at (s ago)
+  = partial :'partials/worker', collection: @workers

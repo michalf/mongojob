@@ -1,0 +1,36 @@
+%h1& Worker: #{@worker.id}
+
+%h2 Basic info
+
+%table.info.worker
+  %tr.id
+    %td Id:
+    %td= @worker.id
+  %tr.queues
+    %td Queues:
+    %td= @worker.queues.join(', ')
+  %tr.status
+    %td Status:
+    %td= @worker.status
+  %tr.custom_status
+    %td Custom status:
+    %td= @worker.custom_status.to_json
+    
+  %tr
+    %td Pinged at (s ago):
+    %td= @worker.pinged_at ? (Time.now - @worker.pinged_at).to_i : '-'
+    
+    
+%h2 Current jobs
+
+%table.jobs
+  %tr.head
+    %th.id Id
+    %th.class Class
+    %th.status Status
+    %th.options Options
+    %th.created_at Created at
+    %th.released_at Released at
+    %th.pinged_at Pinged at
+    %th.actions Actions
+  = partial :'partials/job', collection: @worker.jobs.all

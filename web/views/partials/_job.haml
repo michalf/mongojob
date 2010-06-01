@@ -1,0 +1,11 @@
+%tr.job{'data-id' => job.id}
+  %td.id
+    %a{href: "/job/#{job.id}"}= job.id
+  %td.class= job.klass
+  %td.status= job.status
+  %td.options= job.options.to_json
+  %td.created_at= job.created_at 
+  %td.release_at= job.release_at
+  %td.pinged_at= job.pinged_at ? (Time.now - job.pinged_at) : '-'
+  %td.actions
+    %button.kill Kill

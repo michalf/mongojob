@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift File.expand_path(File.dirname(__FILE__) + '/../lib')
+
+require 'mongojob'
+
+options = MongoJob::Worker.parse_options
+worker = MongoJob::Worker.new(options)
+worker.run

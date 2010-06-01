@@ -1,0 +1,8 @@
+%tr.queue
+  %td.name
+    %a{href: "/queue/#{queue.id}"}= queue.id
+  %td.queued_count= queue.jobs.count status: 'queued'
+  %td.processing_count= queue.jobs.count status: 'working'
+  %td.completed_count= queue.jobs.count status: 'done'
+  %td.failed_count= queue.jobs.count status: 'failed'
+  

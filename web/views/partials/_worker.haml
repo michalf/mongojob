@@ -1,0 +1,8 @@
+%tr.worker
+  %td.id
+    %a{href: "/worker/#{worker.id}"}= worker.id
+  %td.host& #{worker.hostname} (#{worker.ip})
+  %td.queues= worker.queues.join(', ')
+  %td.status= worker.status
+  %td.processing= worker.jobs.count status: 'working'
+  %td.pinged_at= worker.pinged_at ? (Time.now - worker.pinged_at).to_i : '-'

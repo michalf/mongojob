@@ -1,0 +1,54 @@
+%h1& Job: #{@job.id}
+
+%table.info.job
+  %tr.id
+    %td Id:
+    %td= @job.id
+  %tr.options
+    %td Options:
+    %td= @job.options.to_json
+  %tr.class
+    %td Class:
+    %td= @job.klass
+  %tr.queue
+    %td Queue:
+    %td
+      %a{href: "/queue/#{@job.queue_name}"}= @job.queue_name
+  %tr.status
+    %td Status:
+    %td= @job.status
+  %tr.worker
+    %td Worker:
+    %td
+      %a{href: "/worker/#{@job.worker_id}"}= @job.worker_id
+  
+  %tr.progress
+    %td Progress:
+    %td= @job.progress.to_json
+    
+  %tr.custom-status
+    %td Custom status:
+    %td= @job.custom_status.to_json
+  
+  %tr.created-at
+    %td Created at:
+    %td= @job.created_at
+  %tr.release-at
+    %td Release at:
+    %td= @job.release_at
+  %tr.started-at
+    %td Started at:
+    %td= @job.started_at
+  %tr.completed-at
+    %td Completed at:
+    %td= @job.completed_at
+  %tr.pinged-at
+    %td Pinged at (s ago):
+    %td= @job.pinged_at ? (Time.now - @job.pinged_at) : '-'
+  
+  %tr.error
+    %td Error:
+    %td= @job.error
+    
+.actions
+  %button.kill Kill

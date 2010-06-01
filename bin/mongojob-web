@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift File.expand_path(File.dirname(__FILE__) + '/../lib')
+
+require 'vegas'
+require 'mongojob/web'
+
+Vegas::Runner.new(MongoJob::Web, 'mongojob-web') do |runner, opts, app|
+  opts.on('-h HOST', "--host HOST", "set the MongoDB host") {|host|
+    MongoJob.host = host
+  }
+  opts.on('-d DATABASE_NAME', "--database-name DATABASE_NAME", "set the MongoDB database name") {|database_name|
+    MongoJob.database_name = database_name
+  }
+end

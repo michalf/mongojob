@@ -1,0 +1,30 @@
+!!! 5
+
+%html
+  %head
+    %meta{charset: 'utf-8'}
+    
+    %title MongoJob - ultimate job queuing
+
+    - ['style'].each do |css|
+      %link{:href => versioned_css(css), :rel => 'stylesheet', :type => 'text/css' }
+    %script{src: versioned_js('jquery-1.4.2.min'), type: "text/javascript"}
+    %script{src: versioned_js('mongojob'), type: "text/javascript"}
+      
+  %body
+    #header
+      %h1 MongoJob
+    #topmenu
+      %ul
+        %li
+          %a{href: '/'} Overview
+        %li
+          %a{href: '/queues'} Queues
+        %li
+          %a{href: '/workers'} Workers
+          
+    #content
+      = yield
+    #footer
+      & Page generated at #{Time.now}.
+      & Host: #{@config[:host]}, database: #{@config[:database_name]}

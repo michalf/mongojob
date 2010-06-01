@@ -1,0 +1,23 @@
+%h1& Queue info: #{@queue.id}
+
+.tab
+  %a{href: "/queue/#{@queue.id}"} Queued
+  %a{href: "/queue/#{@queue.id}?job_status=done"} Completed
+  %a{href: "/queue/#{@queue.id}?job_status=failed"} Failed
+  %a{href: "/queue/#{@queue.id}?job_status=working"} Working
+
+
+%table.jobs
+  %tr.head
+    %th.id Class
+    %th.class Class
+    %th.status Status
+    %th.options Options
+    %th.created_at Created at
+    %th.released_at Released at
+    %th.pinged_at Pinged at
+    %th.actions Actions
+  = partial :'partials/job', collection: @jobs
+        
+        
+%h2 Workers for this queue
