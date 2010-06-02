@@ -1,5 +1,6 @@
 require "eventmachine"
 require "fiber"
+require "optparse"
 
 module MongoJob
   
