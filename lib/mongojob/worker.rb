@@ -147,8 +147,8 @@ module MongoJob
         job.complete
         Model::Worker.increment(id, {:'stats.done' => 1})
       rescue Exception => e
-        log.info "Job #{job.id} failed"
-        log.info e
+        log.error "Job #{job.id} failed"
+        log.error e
         job.fail e
         Model::Worker.increment(id, {:'stats.failed' => 1})
         p e
@@ -171,11 +171,14 @@ module MongoJob
     def fork &blk
       pid = Process.fork do
         if EM.reactor_running?
+          log.debug "Reactor running in the forked process. Stopping."
           # Need to clear EM reactor
           EM.stop_event_loop
           EM.release_machine
           EM.instance_variable_set( '@reactor_running', false )
         end
+        # Reconnect to database, we should not share the same file descriptor for MongoDB
+        MongoJob.connection.connect_to_master
         # TODO: Should we rescue exceptions from the block call?
         blk.call
         Process.exit!(0)
@@ -232,7 +235,7 @@ module MongoJob
             if job.status == 'working'
               job.fail "Process died."
             else
-              log.debug "Process #{pid} for job #{job_id} ended."
+              log.info "Process #{pid} for job #{job_id} ended."
             end
           end
           # For sure we are not working on it anymore, so remove from the stack
