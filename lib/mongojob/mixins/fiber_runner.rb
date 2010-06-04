@@ -12,7 +12,6 @@ module MongoJob
       module InstanceMethods
         
         def run_em_fiber period, &blk
-          # log.info "Starting tick #{method_name} with period #{period} seconds"
           Fiber.new do
             loop do
               f = Fiber.current
@@ -20,10 +19,8 @@ module MongoJob
                 # log.debug "Running method #{method_name}"
                 blk.call
               rescue Exception => e
-                # do something
-                # log.error "Caught exception when running #{method_name}"
-                # log.error e
-                p e
+                # log if logger is available
+                log.error e if respond_to? :log
               end
               EM.add_timer period do
                 f.resume

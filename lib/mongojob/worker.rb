@@ -181,7 +181,7 @@ module MongoJob
         Process.exit!(0)
       end
       # Detach the process. We are not using Process.wait.
-#      Process.detach pid
+      Process.detach pid
       pid
     end
     
@@ -205,6 +205,7 @@ module MongoJob
         
         # Now check if finished, which means it will be in Z (zombie) status
         # TODO: should we use EventMachine#watch_process ?
+        # UPDATE: we are not collecting process status, so we should never see zombie processes.
         if state =~ /Z/
           # Process completed, collect information
           pid, status = Process.wait2 pid
@@ -227,8 +228,12 @@ module MongoJob
           # Process not running
           # Check the status of the job - if it is still marked as "working", we should set its
           # status to "failed"
-          if job && job.status == 'working'
-            job.fail "Process missing."
+          if job
+            if job.status == 'working'
+              job.fail "Process died."
+            else
+              log.debug "Process #{pid} for job #{job_id} ended."
+            end
           end
           # For sure we are not working on it anymore, so remove from the stack
           finish_job job_id
