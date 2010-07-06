@@ -27,8 +27,8 @@ module MongoJob
         model_worker ||= Model::Worker.create({
           id: id
           })
-          model_worker.set data
-        end
+        model_worker.set data.merge({ pinged_at: Time.now })
+      end
       
     end
   end

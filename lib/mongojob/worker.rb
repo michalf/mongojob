@@ -258,7 +258,6 @@ module MongoJob
       # shutdown! unless worker.status == 'ok'
       
       data = tick_data.merge({
-        pinged_at: Time.now,
         status: 'ok',
         queues: @queues
       })

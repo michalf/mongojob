@@ -63,8 +63,10 @@ module MongoJob
       def complete
         set({
           status: 'done',
-          completed_at: Time.now
+          completed_at: Time.now,
+          custom_status: {}
         })
+        reload
       end
       
       # Usage:
